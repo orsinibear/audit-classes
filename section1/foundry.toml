@@ -13,4 +13,7 @@ dictionary_weight = 48
 include_storage = true
 include_push_bytes = true
 
+[rpc_endpoints]
+mainnet = ""
+
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
