@@ -8,3 +8,5 @@ Base has helped me focus in my auditing classes
 
 21/12/25 -  learnt self-destruct, finish the section 1 refresher. section 2 began
 SLITHER, ADERYN, 4NALYZ3R, MYTHRIL -these are static tools
+
+26/12/25 - how to access an audit request. Applying REKT test and giving consultancy as alt
