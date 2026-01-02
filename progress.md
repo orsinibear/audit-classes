@@ -28,3 +28,16 @@ learnt severity by the means of likelyhood and impact and also learnt good markd
 
 ## 2/01/25 -
 learnt timeboxing , installed pandoc and latex
+learnt how to write reports and turn markdown to pdf
+
+```bash
+ pandoc report.md \
+  -o report.pdf \
+  --template=eisvogel \
+  --pdf-engine=xelatex \
+  -V mainfont="DejaVu Serif" \
+  -V sansfont="DejaVu Sans" \
+  -V monofont="DejaVu Sans Mono" \
+  --listings
+```
+
