@@ -1,4 +1,4 @@
-### [h-1] TITLE Storing the password on-chain makes it visible to anyone , and no loner private
+### [H-1] TITLE Storing the password on-chain makes it visible to anyone , and no loner private
 
 **Description:**  All data stored onchain is visible to anyone, the `PasswordStore::s_password` variable is intended to be a private variable and only accessed through the `PasswordStore::getPassword` function, which is intended to be only called by the owner of the contract
 
@@ -51,8 +51,7 @@ myPassword
 -severity: HIGH
 
 
-
-### [S-#]  `PasswordStore::setPassword` has no access controls, meaning a non-owner could change the password
+### [H-2]  `PasswordStore::setPassword` has no access controls, meaning a non-owner could change the password
 
 **Description:**  The `PasswordStore::getPassword`  function is set to be an `external` function, however, the natspec of the function and overall purpose of the smrt contract is that `This function only permits the owner to set a new password.`
 
@@ -103,12 +102,8 @@ myPassword
 
 
 
-## Likelihood & Impact:
--Impact: HIGH
--Likelihood: HIGH
--severity: HIGH
 
- ### [S-#] The `PasswordStore::getPassword` natspec indicates a parameter that doesnt exist, causing the natspec to be incorrect.
+ ### [I-1] The `PasswordStore::getPassword` natspec indicates a parameter that doesnt exist, causing the natspec to be incorrect.
 
 **Description:**
 
