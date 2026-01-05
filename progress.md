@@ -43,3 +43,9 @@ learnt how to write reports and turn markdown to pdf
 
 ## 3/01/26 -
   trying to set up dev containers
+
+## 4/01/26 -
+  read puppyraffle contract and spotted bugs myself!!
+
+## 5/01/26
+  ran Dos test for puppyRaffle.   
