@@ -91,6 +91,7 @@ contract PuppyRaffle is ERC721, Ownable {
             "PuppyRaffle: Must send enough to enter raffle"
         );
         for (uint256 i = 0; i < newPlayers.length; i++) {
+            // q  what resets the players array??
             players.push(newPlayers[i]);
         }
 
@@ -137,6 +138,8 @@ contract PuppyRaffle is ERC721, Ownable {
                 return i;
             }
         }
+        // q what if the player is at index 0
+        // @audit if the player is at index 0 , itll return zero and the player will be thought to be inactive
         return 0;
     }
 

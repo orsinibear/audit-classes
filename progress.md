@@ -49,3 +49,6 @@ learnt how to write reports and turn markdown to pdf
 
 ## 5/01/26
   ran Dos test for puppyRaffle.   
+
+## 6/01/25 
+  tackelled re-entrancy on the refund function  through the subfunction getActivePlayerIndex. read "still plagues to today"

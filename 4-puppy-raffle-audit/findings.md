@@ -26,7 +26,8 @@ This makes that 3x expensive for second 100 players
 
 <details>
 <summary>PoC<summary>
-place the following test into `PuppyRaffleTest.t.sol` ,
+place the following test into `PuppyRaffleTest.t.sol` 
+
 ```javascript
  function test_DOS() public {
         vm.txGasPrice(1);
@@ -61,4 +62,9 @@ place the following test into `PuppyRaffleTest.t.sol` ,
 </details>
 
 
-**Recommended Mitigation:**
+**Recommended Mitigation:** There are a few recommendations,
+
+1. Consider allowing duplicates, Users can make new wallet addresses anyways, so a duplicate check doesnt prvent the same person from entereing multiple times, only the same wallet address.
+2. Consider using a mapping to check for duplicates.
+
+3. Consider using openzeppelin enumerable library
