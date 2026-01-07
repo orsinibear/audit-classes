@@ -16,11 +16,7 @@ contract PuppyRaffleTest is Test {
     uint256 duration = 1 days;
 
     function setUp() public {
-        puppyRaffle = new PuppyRaffle(
-            entranceFee,
-            feeAddress,
-            duration
-        );
+        puppyRaffle = new PuppyRaffle(entranceFee, feeAddress, duration);
     }
 
     //////////////////////
@@ -91,18 +87,20 @@ contract PuppyRaffleTest is Test {
         console.log("Gas cost of the first 100 players: ", gasUsedFirst);
 
         //second set of 100 players
-         address[] memory playersTwo = new address[](playersNum);
+        address[] memory playersTwo = new address[](playersNum);
         for (uint256 i = 0; i < playersNum; i++) {
             playersTwo[i] = address(uint160(i + 1 + playersNum));
         }
         uint256 gasStartSecond = gasleft();
-        puppyRaffle.enterRaffle{value: entranceFee * playersTwo.length}(playersTwo);
+        puppyRaffle.enterRaffle{value: entranceFee * playersTwo.length}(
+            playersTwo
+        );
         uint256 gasEndSecond = gasleft();
 
         uint256 gasUsedSecond = (gasStartSecond - gasEndSecond) * tx.gasprice;
         console.log("Gas cost of the second 100 players: ", gasUsedSecond);
 
-        assert(gasUsedFirst<gasUsedSecond);
+        assert(gasUsedFirst < gasUsedSecond);
     }
 
     //////////////////////
@@ -200,7 +198,7 @@ contract PuppyRaffleTest is Test {
         vm.warp(block.timestamp + duration + 1);
         vm.roll(block.number + 1);
 
-        uint256 expectedPayout = ((entranceFee * 4) * 80 / 100);
+        uint256 expectedPayout = (((entranceFee * 4) * 80) / 100);
 
         puppyRaffle.selectWinner();
         assertEq(address(playerFour).balance, balanceBefore + expectedPayout);
@@ -218,8 +216,8 @@ contract PuppyRaffleTest is Test {
         vm.warp(block.timestamp + duration + 1);
         vm.roll(block.number + 1);
 
-        string memory expectedTokenUri =
-            "data:application/json;base64,eyJuYW1lIjoiUHVwcHkgUmFmZmxlIiwgImRlc2NyaXB0aW9uIjoiQW4gYWRvcmFibGUgcHVwcHkhIiwgImF0dHJpYnV0ZXMiOiBbeyJ0cmFpdF90eXBlIjogInJhcml0eSIsICJ2YWx1ZSI6IGNvbW1vbn1dLCAiaW1hZ2UiOiJpcGZzOi8vUW1Tc1lSeDNMcERBYjFHWlFtN3paMUF1SFpqZmJQa0Q2SjdzOXI0MXh1MW1mOCJ9";
+        string
+            memory expectedTokenUri = "data:application/json;base64,eyJuYW1lIjoiUHVwcHkgUmFmZmxlIiwgImRlc2NyaXB0aW9uIjoiQW4gYWRvcmFibGUgcHVwcHkhIiwgImF0dHJpYnV0ZXMiOiBbeyJ0cmFpdF90eXBlIjogInJhcml0eSIsICJ2YWx1ZSI6IGNvbW1vbn1dLCAiaW1hZ2UiOiJpcGZzOi8vUW1Tc1lSeDNMcERBYjFHWlFtN3paMUF1SFpqZmJQa0Q2SjdzOXI0MXh1MW1mOCJ9";
 
         puppyRaffle.selectWinner();
         assertEq(puppyRaffle.tokenURI(0), expectedTokenUri);
@@ -242,5 +240,13 @@ contract PuppyRaffleTest is Test {
         puppyRaffle.selectWinner();
         puppyRaffle.withdrawFees();
         assertEq(address(feeAddress).balance, expectedPrizeAmount);
+    }
+
+    function testOverflow() public {
+        uint256 fee = 1e18;
+        uint64 totalFeess;
+        vm.expectRevert("PuppyRaffle: Must send enough to enter raffle");
+        totalFeess = totalFeess + uint64(fee);
+        assertEq(totalFeess = 1e18);
     }
 }

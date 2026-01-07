@@ -52,3 +52,6 @@ learnt how to write reports and turn markdown to pdf
 
 ## 6/01/25 
   tackelled re-entrancy on the refund function  through the subfunction getActivePlayerIndex. read "still plagues to today"
+
+## 7/01/26 -
+  overflow bug in puppy raffle due to type casting, precision loss, examinin the `withdrawFees` through balance
