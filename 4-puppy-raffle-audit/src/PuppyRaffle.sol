@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.7.6;
+// report written
 // @audit-info use of floating pragma is bad !
 // @audit-info why are you using 0.7
 
@@ -25,6 +26,7 @@ contract PuppyRaffle is ERC721, Ownable {
     address[] public players;
     
     // q how long the raffle last
+    // report written
     // @audit-gas this should be immutable
     uint256 public raffleDuration;
     uint256 public raffleStartTime;
@@ -72,6 +74,7 @@ contract PuppyRaffle is ERC721, Ownable {
         uint256 _raffleDuration
     ) ERC721("Puppy Raffle", "PR") {
         entranceFee = _entranceFee;
+        // report written
         // @audit-info check for zero address
         // input validation
         feeAddress = _feeAddress;
@@ -103,8 +106,9 @@ contract PuppyRaffle is ERC721, Ownable {
         }
 
         // Check for duplicates
+        //written
         // @audit DOS
-        // @audit-gas uint256 playerLength = players.length
+        //written uint256 playerLength = players.length
         for (uint256 i = 0; i < players.length - 1; i++) {
             for (uint256 j = i + 1; j < players.length; j++) {
                 require(
@@ -120,6 +124,7 @@ contract PuppyRaffle is ERC721, Ownable {
     /// @param playerIndex the index of the player to refund. You can find it externally by calling `getActivePlayerIndex`
     /// @dev This function will allow there to be blank spots in the array
     function refund(uint256 playerIndex) public {
+        //written-skipped MEV
         address playerAddress = players[playerIndex];
         require(
             playerAddress == msg.sender,

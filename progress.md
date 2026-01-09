@@ -58,3 +58,8 @@ learnt how to write reports and turn markdown to pdf
 
 ## 8/07/26 -  
    read "Sushiswap Miso": how scuzm*? saved $300m, answering questions we set while first run-through, read slither analysis, added more audit, info/gas. 
+
+## 9/01/26 - 
+   explored codehawks and edited my profile, saw contests there.
+   writting report for the bugs on puppy raffle.
+   took advantage of reports from slither and Adryn   

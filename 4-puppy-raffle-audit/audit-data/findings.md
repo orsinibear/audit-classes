@@ -3,7 +3,6 @@
 **Description:**  The `PuppyRaffle::enterRaffle` function loops through the `players` array to check for duplicates. However, the longer the `PuppyRaffle::player` array is, the more checks a new player will have to make. This means the gas costs for players who enter early will be dramatically lower than for those who enter later. Every additional address creates an aditional loop.
 
 ```javascript
-// @audit DOS attack
   for (uint256 i = 0; i < players.length - 1; i++) {
             for (uint256 j = i + 1; j < players.length; j++) {
                 require(players[i] != players[j], "PuppyRaffle: Duplicate player");
@@ -68,3 +67,101 @@ place the following test into `PuppyRaffleTest.t.sol`
 2. Consider using a mapping to check for duplicates.
 
 3. Consider using openzeppelin enumerable library
+
+
+
+### [S-#] TITLE (Root Cause + Impact)
+**Description:** 
+
+**Impact:**
+
+**Proof of Concept:**
+
+**Recommended Mitigation:**
+
+
+### [I-2] Solidity pragma should be specific, not wide
+
+Consider using a specific version of Solidity in your contracts instead of a wide version. For example, instead of `pragma solidity ^0.8.0;`, use `pragma solidity 0.8.0;`
+
+<details><summary>1 Found Instances</summary>
+
+	```solidity
+	pragma solidity ^0.7.6;
+	```
+
+</details>
+
+
+
+
+
+
+
+### [I-2] Using an outdated version of solidity is not recommended.
+
+solc frequently releases new compiler versions. Using an old version prevents access to new Solidity security checks. We also recommend avoiding complex pragma statement.
+
+**Recommendation**:
+Deploy with a recent version of Solidity (at least 0.8.0) with no known severe issues.
+
+Use a simple pragma version that allows any of these versions. Consider using the latest version of Solidity for testing.
+
+Please see [slither](https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity) documentation for more information
+
+
+### [G-1] Unchanged state variable should be declared constant or immutable.
+
+Reading from storage is much more expensiv ethan reading from a constant or immtable variable
+
+Intances:
+ `PuppyRaffle::raffleDuration` should be `immutable`
+ `PuppyRaffle::commonImageUri` should be `immutable`
+ `PuppyRaffle::rareImageUri` should be `immutable`
+ `PuppyRaffle::legendaryImageUri` should be `immutable`
+
+
+
+### [I-3] Missing checks for `address(0)` when assigning values to address state variables
+
+Check for `address(0)` when assigning values to address state variables.
+
+<details><summary>2 Found Instances</summary>
+
+    ```javascript
+            feeAddress = _feeAddress;
+    ```
+
+
+
+    ```javascript
+            feeAddress = newFeeAddress;
+    ```
+
+</details>
+
+
+
+### [G-2]  Storage variables in a loop should be cached
+Everytime you call `players.length` you read from storage, as opposed to opposed to memory which is more gas efficient.
+
+```diff
+ +        uint256 playersLength = players.length
+ -       for (uint256 i = 0; i < players.length - 1; i++) {
+ +       for (uint256 i = 0; i < playersLength - 1; i++) {
+ -           for (uint256 j = i + 1; j < players.length; j++) {
+ +           for (uint256 j = i + 1; j < playersLength; j++) {
+                require(
+                    players[i] != players[j],
+                    "PuppyRaffle: Duplicate player"
+                );
+            }
+        }
+```
+
+
+
+
+
+
+###
