@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.7.6;
 // report written
-// @audit-info use of floating pragma is bad !
-// @audit-info why are you using 0.7
+// written audit-info why are you using 0.7
 
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
@@ -24,7 +23,7 @@ contract PuppyRaffle is ERC721, Ownable {
     uint256 public immutable entranceFee;
 
     address[] public players;
-    
+
     // q how long the raffle last
     // report written
     // @audit-gas this should be immutable
@@ -139,13 +138,14 @@ contract PuppyRaffle is ERC721, Ownable {
         payable(msg.sender).sendValue(entranceFee);
 
         players[playerIndex] = address(0);
-        // @audit-low 
+        // @audit-low
         emit RaffleRefunded(playerAddress);
     }
 
     /// @notice a way to get the index in the array
     /// @param player the address of a player in the raffle
     /// @return the index of the player in the array, if they are not active, it returns 0
+
     function getActivePlayerIndex(
         address player
     ) external view returns (uint256) {
@@ -180,10 +180,10 @@ contract PuppyRaffle is ERC721, Ownable {
         ) % players.length;
         address winner = players[winnerIndex];
 
-        // @audit-info why not just do address(this).balance
+        // report skipped why not just do address(this).balance
         uint256 totalAmountCollected = players.length * entranceFee;
 
-        // @audit-info Magic nubers
+        // Magic nubers
         uint256 prizePool = (totalAmountCollected * 80) / 100;
         uint256 fee = (totalAmountCollected * 20) / 100;
         // e this is the totla fees the owner should be able to collect
@@ -199,8 +199,8 @@ contract PuppyRaffle is ERC721, Ownable {
         // We use a different RNG calculate from the winnerIndex to determine rarity
 
         // @audit randomness
-     
-         // @audit people can revert the TX untill the win their preffered token
+
+        // @audit people can revert the TX untill the win their preffered token
         uint256 rarity = uint256(
             keccak256(abi.encodePacked(msg.sender, block.difficulty))
         ) % 100;
@@ -215,7 +215,6 @@ contract PuppyRaffle is ERC721, Ownable {
         delete players; // resetting the players array
         raffleStartTime = block.timestamp; // resetting the raffle start time
         previousWinner = winner; // e vanity, doesnt mattter much
-
 
         // @audit the winner wouldnt get the money back if their fallback was messed up
         (bool success, ) = winner.call{value: prizePool}("");

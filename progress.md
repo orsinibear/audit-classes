@@ -65,4 +65,7 @@ learnt how to write reports and turn markdown to pdf
    took advantage of reports from slither and Adryn
 
 ## 15/01/25
-  reported reentrancy      
+  reported reentrancy  
+
+## 17/01/25
+  write report for reentrancy, magic numbers, CEI, Integer Overflow, weak randomness, getActivePlayerIndex 
