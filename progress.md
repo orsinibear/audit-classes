@@ -72,3 +72,8 @@ learnt how to write reports and turn markdown to pdf
 
 ## 19/01/26
   summarize puppyRaffle report, create a pdf by formatting the report.md and using the pandoc comm
+
+ ## 16/02/26
+  Started section 5 : T-swap 
+  learnt AMM and order books
+  re-learnt fuzz and invarriants 
