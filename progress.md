@@ -81,3 +81,7 @@ learnt how to write reports and turn markdown to pdf
 ## 17/02/26
   practiced statfull and stateless fuzzing
   made use of invariant contract in forge-std
+
+## 18/02/26
+  saw loopholes in fuzz handlers (fail on revert)
+  now understand the pros and cons of handling fuzz  
