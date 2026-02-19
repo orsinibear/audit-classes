@@ -85,3 +85,7 @@ learnt how to write reports and turn markdown to pdf
 ## 18/02/26
   saw loopholes in fuzz handlers (fail on revert)
   now understand the pros and cons of handling fuzz  
+
+## 19/02/26
+  created a handler that handled approve, deposit, withdrawal generally.
+  network broke before we wrote the Invariant.t.sol 
