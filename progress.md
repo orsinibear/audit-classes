@@ -89,3 +89,7 @@ learnt how to write reports and turn markdown to pdf
 ## 19/02/26
   created a handler that handled approve, deposit, withdrawal generally.
   network broke before we wrote the Invariant.t.sol 
+
+## 20/02/26
+  wrote invariant test and and saw invariant get broken by weird ERC20 token
+    
