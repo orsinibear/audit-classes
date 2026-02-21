@@ -93,3 +93,7 @@ learnt how to write reports and turn markdown to pdf
 ## 20/02/26
   wrote invariant test and and saw invariant get broken by weird ERC20 token
     
+## 21/02/26
+   setup invariant test for TSwap pool contract
+   learnt this - forge inspect TSwapPool methods
+   wrote the handler for the invariants but not yet tested   

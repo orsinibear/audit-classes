@@ -1,0 +1,98 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import { Test } from "forge-std/Test.sol";
+import { ERC20Mock } from "../mocks/ERC20Mock.sol";
+// import {StdInvariant} from "forge-std/StdInvariant.sol";
+// import { PoolFactory } from "../../src/PoolFactory.sol";
+import { TSwapPool } from "../../src/TSwapPool.sol";
+
+contract Handler is StdInvariant, Test {
+    TSwapPool pool;
+    ERC20Mock weth;
+    ERC20Mock poolToken;
+
+    address liquidityProvider = makeAddr("lp");
+    address swapper = makeAddr("swapper");
+
+    //Ghost variables
+    int256 startingY;
+    int256 startingX;
+
+    int256 expectedDeltaX;
+    int256 expectedDeltaY;
+    int256 actualDeltaX;
+    int256 actualDeltaY;
+    constructor(TSwapPool _pool) {
+        pool = _pool;
+        weth = ERC20Mock(_pool.getWeth());
+        poolToken = ERC20Mock(_pool.getPoolToken());
+    }
+
+     function swapPoolTokenForWethBasedOnOutputWeth(uint256 OutputWeth) public {
+        OutputWeth = bound(OutputWeth, 0, type(uint64).max);
+        if(OutputWeth >= weth.balanceOf(address(pool))){
+            return ;
+        }
+        // deltaX
+        // deltaX = (B/(1-B)) * x
+        uint256 poolTokenAmount = pool.getInputAmountBasedOnOutput(outputWeth, poolToken.balanceOf(address(pool)), weth.balanceOf(address(pool))); 
+
+        if(poolTokenAmount > type(uint64).max){
+            return;
+        }
+
+        startingY = int256(weth.balanceOf(address(this)));
+        startingX = int256(poolToken.balanceOf(address(this)));
+        expectedDeltaY = int256(-1) * int256(outputWeth);
+        expectedDeltaX = int256(pool.getPoolTokensToDepositBasedOnWeth(poolTokenAmount));
+
+        if(poolToken.balanceOf(swapper) < poolTokenAmount) {
+            poolToken.mint(user, poolTokenAmount - poolToken.balanceOf(user) + 1);
+        }
+
+        vm.startPrank(swapper);
+        poolToken.approve(address(pool), type(uint256).max);
+        pool.swapExactOutput(poolToken, weth, outputWeth, uint64(block.timestamp));
+
+        //actual
+        uint256 endingY = weth.balanceOf(address(this));
+        uint256 endingX = poolToken.balanceOf(address(this));
+
+        actualDeltaY = int256(endingY) - int256(startingY);
+        actualDeltaX = int256(endingX) - int256(startingX);
+
+    }
+
+    // deposit, swapExactOutput
+    function deposit(uint256 wethAmount) public {
+        wethAmount = bound(wethAmount, 0, type(uint64).max);
+
+        startingY = int256(weth.balanceOf(address(this)));
+        startingX = int256(poolToken.balanceOf(address(this)));
+        expectedDeltaY = int256(wethAmount);
+        expectedDeltaX = int256(pool.getPoolTokensToDepositBasedOnWeth(wethAmount));
+
+        //depost
+
+        vm.startPrank(liquidityProvider);
+        weth.mint(liquidityProvider, wethAmount);
+        poolToken.mint(liquidityProvider, uint256(expectedDeltaX));
+        weth.approve(address(pool), type(uint256).max);
+        poolToken.approve(address(pool), type(uint256).max);
+
+        pool.deposit(wethAmount, 0, uint256(expectedDeltaX), uint64(block.timestamp));
+
+        vm.stopPrank();
+
+        //actual
+        uint256 endingY = weth.balanceOf(address(this));
+        uint256 endingX = poolToken.balanceOf(address(this));
+
+        actualDeltaY = int256(endingY) - int256(startingY);
+        actualDeltaX = int256(endingX) - int256(startingX);
+
+    }
+
+   
+}
