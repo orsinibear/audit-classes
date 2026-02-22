@@ -4,9 +4,14 @@ out = "out"
 libs = ["lib"]
 solc = "0.8.20"
 remappings = ['@openzeppelin/contracts=lib/openzeppelin-contracts/contracts']
+evm_version = "shanghai"
+
+
+[fuzz] 
+seed = "0x1"
 
 [invariant]
-runs = 256
+runs = 1000
 depth = 32
 fail_on_revert = true
 

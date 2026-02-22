@@ -96,4 +96,8 @@ learnt how to write reports and turn markdown to pdf
 ## 21/02/26
    setup invariant test for TSwap pool contract
    learnt this - forge inspect TSwapPool methods
-   wrote the handler for the invariants but not yet tested   
+   wrote the handler for the invariants but not yet tested  
+
+## 22/02/26
+  ran the test and found the bug, it was in the swap protocol
+  run tools to see other bugs, just slither for now
