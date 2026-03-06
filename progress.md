@@ -101,3 +101,9 @@ learnt how to write reports and turn markdown to pdf
 ## 22/02/26
   ran the test and found the bug, it was in the swap protocol
   run tools to see other bugs, just slither for now
+
+## 5/03/26
+  ran and static analyzers and saw low crits
+
+## 6/03/26
+  did manual review of TSwapPool and saw highs and infos
